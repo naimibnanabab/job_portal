@@ -32,8 +32,8 @@
         </label>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      <a href="Sign-up.php">Create a Account</a>
-      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+      <a href="sign_up.php">Create a Account</a>
+      <p class="mt-5 mb-3 text-muted">&copy; 2024-2025</p>
     </form>
   </body>
 </html>

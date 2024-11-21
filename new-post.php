@@ -20,7 +20,7 @@
 
   <body class="text-center">
     <form class="form-signin" action="new-post.php" method="post">
-      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <img class="mb-4" src="https://i.ibb.co.com/3v79mKc/job-portal-website-development-service.jpg" alt="" width="[150px]" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>

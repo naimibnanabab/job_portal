@@ -2,7 +2,10 @@
  include('include/header.php');
  include('include/sidebar.php');
  ?>
+ <?php
+  $query= mysqli_query($conn,"select * from job_category")
  
+ ?> 
  
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
             <nav aria-label="breadcrumb">
@@ -36,6 +39,12 @@
                  </div>
 
                  <div class="form-group">
+                    <label for="Cutomer Username">Enter Keyword</label>
+                    
+                   <input type="text" class="form-control" name="Keyword" id="Keyword" placeholder="Enter Keyword"  >
+                 </div>
+
+                 <div class="form-group">
                     <label for="">Country</label>
 
                     <select name="country" class="countries form-control" id="countryId">
@@ -56,9 +65,28 @@
                     <option value="">Select City</option>
                     </select>
                  </div>
+                 <div class="form-group">
+                    <label for="">Select Category</label>
+                        <select name="city" class="form-control" id="category">
+                    
+                       <?php
+                       while($row=mysqli_fetch_array($query)){
+                        ?>
+                             <option value="<?php echo $row['id'] ?>"><?php echo $row['category'] ?></option>
+                        
+                        <?php
+                       }
+                       
+                       ?>  
+
                   
+                    </select>
+                 </div>
                   
-                      <div class="form-group">
+                      
+                 
+                 
+                 <div class="form-group">
                    
                     <input type="submit" class="btn btn-block btn-success" placeholder="Save" name="submit" id="submit">
                  </div>

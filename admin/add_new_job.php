@@ -9,9 +9,10 @@ $login= $_SESSION['email'];
  $country= $_POST['country'];
  $state= $_POST['state'];
  $city= $_POST['city'];
+ $category= $_POST['category'];
+ $Keyword = $_POST['Keyword'];
 
-
-$query = mysqli_query($conn,"insert into all_jobs(customer_email,job_title,des,country,state,city)values('$login','$job_title','$Description','$country','$state','$city')");
+$query = mysqli_query($conn,"insert into all_jobs(customer_email,job_title,des,country,state,city,category,Keyword)values('$login','$job_title','$Description','$country','$state','$city','$category','$Keyword')");
 
 //var_dump($query);
 

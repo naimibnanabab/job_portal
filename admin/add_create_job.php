@@ -67,7 +67,7 @@
                  </div>
                  <div class="form-group">
                     <label for="">Select Category</label>
-                        <select name="city" class="form-control" id="category">
+                        <select name="category" class="form-control" id="category">
                     
                        <?php
                        while($row=mysqli_fetch_array($query)){

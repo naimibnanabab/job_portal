@@ -1,12 +1,11 @@
 <?php 
-// Check if 'email' is set in the session
-if (isset($_SESSION['email']) && !empty($_SESSION['email'])) {
-  // User is logged in
-} else {
-  // Redirect to the login page if not logged in
-  header('Location: admin_login.php');
-  exit();
-}
+
+ session_start();
+ if($_SESSION['email'] == true){
+
+ }else{
+  header('location:admin_login.php');
+ }
 
 ?>
 
@@ -54,7 +53,7 @@ if (isset($_SESSION['email']) && !empty($_SESSION['email'])) {
 
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-            <?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 'Guest'; ?>
+            <?php echo $_SESSION['email'] ?>
         </a>
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
         <ul class="navbar-nav px-3">
@@ -63,5 +62,4 @@ if (isset($_SESSION['email']) && !empty($_SESSION['email'])) {
             </li>
         </ul>
     </nav>
-</body>
-</html>
+

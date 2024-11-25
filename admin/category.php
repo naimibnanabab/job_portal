@@ -43,9 +43,9 @@
   ?>
             
             <tr>
-                <td><?php echo $row[`id`]; ?></td>
-                <td><?php echo $row[`category`]; ?></td>
-                <td><?php echo $row[`des`]; ?></td>
+                <td><?php echo $row['id']; ?></td>
+                <td><?php echo $row['category']; ?></td>
+                <td><?php echo $row['des']; ?></td>
                
                 <td>
                   <div class="row">

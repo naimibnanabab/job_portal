@@ -2,7 +2,12 @@
  include('include/header.php');
  include('include/sidebar.php');
  ?>
+ <?php
+ include('connection/db.php');
+ $query=mysqli_query($conn, "select * from admin_login where admin_type='2' ");
  
+ 
+ ?>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
             <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -33,8 +38,24 @@
                     
                     <textarea name="Description" id="Description" class="form-control" cols="30" rows="10"></textarea>
                  </div>
+                    <div class="form-group">
+                    <label for="Cutomer Username">Select Company Admin</label>
+                    
+                    <select name="admin" class="form-control" id="admin">
+                <?php    
+                  while($row=mysqli_fetch_array($query)){?>
+
+                    <option value="<?php echo $row['admin_email'] ?>"><?php echo $row['admin_email']; ?></option>  
+
+
+                <?php  } ?>
+
+                </select>
+                 </div>
                   
                     
+
+
                       <div class="form-group">
                    
                     <input type="submit" class="btn btn-block btn-success" placeholder="Save" name="submit" id="submit">

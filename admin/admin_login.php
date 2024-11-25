@@ -72,8 +72,6 @@ if (mysqli_num_rows($query)>0) {
 }else{
   echo "<script>alert('Email or password is  incorrect ,Please try again')</script>";
 }
-
-
 }
 }
 

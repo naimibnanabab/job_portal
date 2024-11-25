@@ -27,6 +27,7 @@
                 <th>#SL</th>
                 <th>Company Name</th>
                 <th>Description</th>
+                <th>Admin</th>
                 <th>Action</th>
                 
             </tr>
@@ -46,6 +47,7 @@
                 <td><?php echo $row['company_id']; ?></td>
                 <td><?php echo $row['company']; ?></td>
                 <td><?php echo $row['des']; ?></td>
+                <td><?php echo $row['admin']; ?></td>
                
                 <td>
                   <div class="row">
@@ -66,6 +68,7 @@
                 <th>#SL</th>
                 <th>Company Name</th>
                 <th>Description</th>
+                <th>Admin</th>
                <th>Action</th>
             </tr>
         </tfoot>

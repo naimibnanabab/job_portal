@@ -9,6 +9,7 @@ $id=$_GET['edit'];
  while ($row=mysqli_fetch_array($query)) {
  	 $company_name=$row['company'];
  	 $des=$row['des'];
+ 	 $des=$row['admin'];
    // $des=$row['des'];
  	
  }
@@ -46,20 +47,31 @@ $id=$_GET['edit'];
                     </textarea>
                  </div>
                  
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="Cutomer Username">Select Company Admin</label>
                     
                   <select name="admin" class="form-control" id="admin">
-                     <?php 
-                     include('connection/db.php');
-                       $sql=mysqli_query($conn,"select * from  admin_login where admin_type='2'");
-                      while ($row=mysqli_fetch_array($sql)) { ?>
-                        <option value="<?php echo $row['admin_email']; ?>"><?php echo $row['admin_email']; ?> </option>
-                        
-                  <?php    }   ?>
+                   
                   </select>
-                 </div>
+                 </div> -->
                   
+                 <div class="form-group">
+                    <label for="Cutomer Username">Select Company Admin</label>
+                    
+                    <select name="admin" class="form-control" id="admin">
+                <?php   
+                 include('connection/db.php');
+                 $sql=mysqli_query($conn, "select * from admin_login where admin_type='2' "); 
+                  while($row=mysqli_fetch_array($sql)){?>
+
+                    <option value="<?php echo $row['admin_email'] ?>"><?php echo $row['admin_email']; ?></option>  
+
+
+                <?php  } ?>
+
+                </select>
+                 </div>
+                 
                  
                  
 

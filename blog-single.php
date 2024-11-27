@@ -1,7 +1,19 @@
+<?php
+ session_start();
+ if(isset($_SESSION['email'])==true){
+
+ }else{
+  header('location:job-post.php');
+ }
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>JobPortal - Free Bootstrap 4 Template by Colorlib</title>
+    <title>Next-Hire - Free Bootstrap 4 Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -30,7 +42,7 @@
     
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">JobPortal</a>
+      <a class="navbar-brand" href="index.html" style="font-weight: extra-bold; font-size: 3rem;">Next-Hire</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -41,9 +53,16 @@
 	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
 	          <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
 	          <li class="nav-item active"><a href="contact.php" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta mr-md-2"><a href="new-post.php" class="nav-link">Post a Job</a></li>
-	          <li class="nav-item cta cta-colored"><a href="job-post.php" class="nav-link">Want a Job</a></li>
-
+            <?php 
+if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
+    <li class="nav-item cta mr-md-2"><a href="job-post.php" class="nav-link"><?php echo $_SESSION['email']; ?></a></li>
+    <li class="nav-item cta cta-colored"><a href="logout.php" class="nav-link">Logout</a></li>
+<?php
+} else { ?>
+    <li class="nav-item cta mr-md-2"><a href="job-post.php" class="nav-link">Login</a></li>
+<?php
+}
+?>
 	        </ul>
 	      </div>
 	    </div>
@@ -88,27 +107,39 @@
             <h5><?php echo $country ; ?>, <?php echo $state ; ?>,<?php echo $city ; ?></h5>
             <p><?php echo $des ; ?></p>
 
-            <form action="blog-single.php">
-            <div class="row">
-            
+            <form action="blog-single.php" method="post" enctype='multipart/form-data' style="border: 1px solid gray">
+        
+        <div style="padding: 2%">
+            <div class="row g-3 mb-3">
             <div class="col-sm-6">
-            
-              <label for="">Enter Your First Name</label>   <br>  
-                <input type="text" class="form-contol mb-4" placeholder='First Name...'>
+              <label for="" class="form-label">Enter Your First Name</label>
+              <input type="text" id="first_name" class="form-control" placeholder="First Name...">
             </div>
-
-
-              <div class="col-sm-6"> </div>
-              
-            
-            
+            <div class="col-sm-6">
+              <label for="" class="form-label">Enter Your Last Name</label>
+              <input type="text" id="last_name" class="form-control" placeholder="Last Name...">
             </div>
+          </div>
 
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label for="" class="form-label">Date of Birth</label>
+              <input type="date" id="dob" name="dob" class="form-control" placeholder="Date of Birth">
+            </div>
+            <div class="col-sm-6">
+              <label for="" class="form-label">Resume</label>
+              <input type="file" id="file" name="file" class="form-control">
+            </div>
+          </div>
 
-            </form>
+          <div class="form-group">
+            <input type="submit" name="submit" value="submit"class="btn btn-primary btn-block" >
+          </div>
+
+          </div>
+</form>
+
  
-
-
 
             <p><img src="images/image_7.jpg" alt="" class="img-fluid"> </p>
             <p>Molestiae cupiditate inventore animi, maxime sapiente optio, illo est nemo veritatis repellat sunt doloribus nesciunt! Minima laborum magni reiciendis qui voluptate quisquam voluptatem soluta illo eum ullam incidunt rem assumenda eveniet eaque sequi deleniti tenetur dolore amet fugit perspiciatis ipsa, odit. Nesciunt dolor minima esse vero ut ea, repudiandae suscipit!</p>

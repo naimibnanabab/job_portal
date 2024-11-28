@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 include("connection/db.php");
 $query=mysqli_query($conn,"select * from job_category");
 
@@ -73,7 +74,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
-          	<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have <span class="number" data-number="850000">0</span> great job offers you deserve!</p>
+          	<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have over <span class="number" data-number="850000">0</span> great job offers you deserve!</p>
             <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
 
 						<div class="ftco-search">
@@ -97,7 +98,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
 			              				<div class="form-group">
 				              				<div class="form-field">
 				              					<div class="icon"><span class="icon-briefcase"></span></div>
-								                <input type="text" name="key" id="key" class="form-control" placeholder="eg. Garphic. Web Developer">
+								                <input type="text" name="key" id="key" class="form-control" placeholder="eg. Graphic, Web Developer">
 								              </div>
 							              </div>
 			              			</div>
@@ -181,18 +182,25 @@ if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
       </div>
     </div>
 
-<?php
+    <?php
 include("connection/db.php");
-if (isset($_POST['search']) && !empty($_POST['key'])) {
+if ((isset($_POST['search']) && !empty($_POST['key'])) || isset($_GET['page'])) {
+
+  $page=$_GET['page'];
+    if($page==""||$page==1){
+      $page1=0;
+    }
+    else{
+      $page1=($page*3)-3;
+    }
+
   $keyword = $_POST['key'];
   $category = $_POST['category'];
-  $sql = mysqli_query($conn, "SELECT * FROM all_jobs LEFT JOIN company ON all_jobs.customer_email=company.admin WHERE keyword LIKE '%$keyword%' OR category='$category'");
-}
- else {
+  $sql = mysqli_query($conn, "SELECT * FROM all_jobs LEFT JOIN company ON all_jobs.customer_email=company.admin 
+  WHERE keyword LIKE '%$keyword%' OR category='$category' LIMIT $page1,3");
+} else {
   $sql = mysqli_query($conn, "SELECT * FROM all_jobs");
 }
-
-
 ?>
 
 
@@ -246,11 +254,17 @@ if (isset($_POST['search']) && !empty($_POST['key'])) {
             <div class="block-27">
               <ul>
                 <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
+                <?php
+                $sql=mysqli_query($conn,"SELECT * FROM all_jobs LEFT JOIN company ON all_jobs.customer_email=company.admin 
+                WHERE keyword LIKE '%$keyword%' OR category='$category'");
+                $count=mysqli_num_rows($sql);
+                $a=$count/3;
+                  ceil($a);
+                  for($b=1; $b <=$a; $b++){
+
+                ?>
+                <li><a href="index.php?page=<?php echo $b; ?>"><?php echo $b; ?></a></li>
+                <?php }?>
                 <li><a href="#">&gt;</a></li>
               </ul>
             </div>
@@ -258,6 +272,7 @@ if (isset($_POST['search']) && !empty($_POST['key'])) {
         </div>
 			</div>
 		</section>
+
 
     <section class="ftco-section services-section bg-light">
       <div class="container">

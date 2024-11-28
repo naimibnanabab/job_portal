@@ -78,7 +78,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
    $country= $row['country'];
    $state= $row['state'];
    $city= $row['city'];
-   
+   $id_job = $row['job_id'];
  }
   
  
@@ -107,17 +107,19 @@ if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
             <h5><?php echo $country ; ?>, <?php echo $state ; ?>,<?php echo $city ; ?></h5>
             <p><?php echo $des ; ?></p>
 
-            <form action="blog-single.php" method="post" enctype='multipart/form-data' style="border: 1px solid gray">
+            <form action="apply_job.php" id="JobPortal" method="post" enctype='multipart/form-data' style="border: 1px solid gray">
         
         <div style="padding: 2%">
+          <input type="hidden" name="job_seeker" id='job_seeker' value=<?php echo $_SESSION['email']; ?>>
+          <input type="hidden" name="id_job" id='id_job' value=<?php $id_job ; ?>>
             <div class="row g-3 mb-3">
             <div class="col-sm-6">
               <label for="" class="form-label">Enter Your First Name</label>
-              <input type="text" id="first_name" class="form-control" placeholder="First Name...">
+              <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name...">
             </div>
             <div class="col-sm-6">
               <label for="" class="form-label">Enter Your Last Name</label>
-              <input type="text" id="last_name" class="form-control" placeholder="Last Name...">
+              <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name...">
             </div>
           </div>
 

@@ -134,10 +134,20 @@ if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
             </div>
           </div>
 
-          <div class="form-group">
-            <input type="submit" name="submit" value="submit"class="btn btn-primary btn-block" >
-          </div>
 
+          <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+          <label for="">Enter Your Contact Number</label>
+          <input type="number" class="form-control" name="number" id="number" placeholder="Contact Number..">
+          </div>
+          <div class="col-sm-6">
+          <label for="">Email</label>
+          <input type="text" class="form-control" disabled="disabled" value="<?php echo $_SESSION['email']; ?>">
+          </div>
+          <br>
+          <br>
+          <div style="padding: 2%">
+          <input type="submit" name="submit" id="submit" value="submit" placeholder="Submit" class="btn btn-primary btn-block">
           </div>
 </form>
 

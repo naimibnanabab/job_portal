@@ -10,6 +10,7 @@ if (isset($_POST['submit'])) {
     $tmp_name = $_FILES['file']['tmp_name'];
     $id_job = mysqli_real_escape_string($conn, $_POST['id_job']);
     $job_seeker = mysqli_real_escape_string($conn, $_POST['job_seeker']);
+    $number = mysqli_real_escape_string($conn, $_POST['number']);
 
     $upload_dir = "uploads/";
 
@@ -24,8 +25,8 @@ if (isset($_POST['submit'])) {
     // Move the uploaded file to the uploads directory
     if (move_uploaded_file($tmp_name, $target_file)) {
         // Insert data into the database with properly quoted variables
-        $query = "INSERT INTO job_apply (first_name, last_name, dob, file, id_job, job_seeker) 
-                  VALUES ('$first_name', '$last_name', '$dob', '$file', '$id_job', '$job_seeker')";
+        $query = "INSERT INTO job_apply (first_name, last_name, dob, file, id_job, job_seeker, mobile_number) 
+                  VALUES ('$first_name', '$last_name', '$dob', '$file', '$id_job', '$job_seeker','$number')";
 
         // Execute the query
         if (mysqli_query($conn, $query)) { // Fix: actually execute the query here

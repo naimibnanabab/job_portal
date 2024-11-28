@@ -9,78 +9,70 @@
             <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="admin_dashboard.php">Dashoard</a></li>
-              <li class="breadcrumb-item"><a href="#">All Jobs</a></li>
+              <li class="breadcrumb-item"><a href="#">Jobs</a></li>
             
             </ol>
           </nav>
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-       <h1 class="h2"> All Jobs</h1>
+       <h1 class="h2"> Applied Jobs</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                
               </div>
-              <a> </a>
+              
             </div>
           </div>
 
-           <table id="example" class="display compact" style="width:100%">
-        <thead>
-            <tr>
-                <th>#SL</th>
-               
-                <th>Job Title</th>
-                <th>Description</th>
-                <th>Job Seeker Name</th>
-                <th>Job Seeker Email</th>
-                <th>Location</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-
+          <form action="" style="border: 1px solid gray; width: 80%; margin-left: 10%; padding: 10px;">
         <?php 
          include('connection/db.php');
-       $a=1;
-        $sql="select * from   job_apply LEFT JOIN all_jobs ON job_apply.id_job=all_jobs.job_id  where customer_email='{$_SESSION['email']}'";
+        echo $id=$_GET['id'];
+        $sql="select * from   job_apply LEFT JOIN all_jobs ON job_apply.id_job=all_jobs.job_id where customer_email='{$_SESSION['email']}'";
         $query=mysqli_query($conn, $sql);
         
         while($row=mysqli_fetch_array($query)){
-        ?>
-                    
-            <tr>
-            	<td><?php echo $a; ?></td>
-            	<td><?php echo $row['job_title']; ?></td>
-                <td><?php echo $row['des']; ?></td>
-                <td><?php echo $row['first_name']; ?>,<?php echo $row['last_name']; ?> </td>
-              
-                <td><?php echo $row['job_seeker']; ?></td>
-                <td><?php echo $row['city']; ?>, <?php echo $row['state']; ?></td>
+        ?>      
+                <br>
+                  <div class="form-group">
+                  <label for="">Job Title :</label>
+                  <td><?php echo $row['job_title']; ?></td>
+                  </div>
+
+                  <div class="form-group">
+                  <label for="">Description :</label>
+                  <td><?php echo $row['des']; ?></td>
+                  </div>
+
+                  <div class="form-group">
+                  <label for="">Applicant Name :</label>
+                  <td><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?> </td>
+                  </div>
+
+                  <div class="form-group">
+                  <label for="">Applicant Email :</label>
+                  <td><?php echo $row['job_seeker']; ?></td>
+                  </div>
+
+                  <div class="form-group">
+                  <label for="">Mobile Number :</label>
+                  <td><?php echo $row['mobile_number']; ?></td>
+                  </div>
+
+                  <div class="form-group">
+                  <label for="">Applicant CV :</label>
+                  <td><a href="http://localhost/job_portal/files/<?php echo $row['file']; ?>">Download File</a></td>
+                  </div>
+                <br>
+                
                 
                  <td>
                     <div class="row">
-                       <div  class="btn-group">
-                          <a href="view_applied_jobs.php?id=<?php echo $row['job_id'];  ?>" class="btn btn-success"><span class="fa fa-pencil"></span> </a>
-                       </div>
                     </div>
                  </td>
             </tr>
           <?php }  ?>
-        </tbody>
-        <tfoot>
-            <!-- <tr>
-                 <th>#SL</th>
-                  <th>Admin name</th>
-                <th>Job Title</th>
-               
-                <th>Country</th>
-                <th>State</th>
-                <th>City</th>
-              <th>Action</th>
-            </tr> -->
-        </tfoot>
-    </table>
 
-
+        </form>
           <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
           <div class="table-responsive">
             

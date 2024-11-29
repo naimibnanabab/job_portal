@@ -2,10 +2,36 @@
 session_start();
 error_reporting(0);
 include("connection/db.php");
-$query=mysqli_query($conn,"select * from job_category");
 
+if (!isset($_GET['page'])) {
+  header("Location: http://localhost/job_portal/index.php?page=1");
+  exit();
+}
+$query = mysqli_query($conn, "SELECT * FROM job_category");
+$query = mysqli_query($conn, "SELECT * FROM job_category");
+
+// Default profile picture
+$profile_picture = "https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg";
+
+// Check if user is logged in
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+
+    // Fetch the user's profile picture from the database
+    $stmt = $conn->prepare("SELECT profile_picture FROM admin_login WHERE admin_email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if (!empty($row['profile_picture'])) {
+            $profile_picture = $row['profile_picture'];
+        }
+    }
+    $stmt->close();
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,60 +39,68 @@ $query=mysqli_query($conn,"select * from job_category");
     <title>JobPortal - Free Bootstrap 4 Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900" rel="stylesheet">
 
+    <!-- Stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="css/animate.css">
-    
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="css/magnific-popup.css">
-
     <link rel="stylesheet" href="css/aos.css">
-
     <link rel="stylesheet" href="css/ionicons.min.css">
-
     <link rel="stylesheet" href="css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="css/jquery.timepicker.css">
-
-    
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     
-	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-      <a class="navbar-brand" href="index.html" style="font-weight: extra-bold; font-size: 3rem;">Next-Hire</a>
-
-
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
-
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            <?php 
-if (isset($_SESSION['email']) && $_SESSION['email'] == true) { ?>
-    <li class="nav-item cta mr-md-2"><a href="job-post.php" class="nav-link"><?php echo $_SESSION['email']; ?></a></li>
-    <li class="nav-item cta cta-colored"><a href="logout.php" class="nav-link">Logout</a></li>
-<?php
-} else { ?>
-    <li class="nav-item cta mr-md-2"><a href="job-post.php" class="nav-link">Login</a></li>
-<?php
-}
-?>
-
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="index.html" style="font-weight: bold; font-size: 3rem;">Next-Hire</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
+            <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
+            
+            <!-- User Profile Dropdown -->
+            <?php if (isset($_SESSION['email'])) { ?>
+              <li class="nav-item cta mr-md-2">
+                  <span class="nav-link">
+                      <?php echo htmlspecialchars($_SESSION['email']); ?>
+                  </span>
+              </li>
+              <li class="nav-item dropdown">
+                  <img src="<?php echo htmlspecialchars($profile_picture); ?>"
+                      class="img-circle dropdown-toggle"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      alt="Profile Picture"
+                      width="50"
+                      height="50"
+                      style="border-radius: 50%; cursor: pointer;">
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="my_profile.php">My Profile</a>
+                      <a class="dropdown-item" href="logout.php">Logout</a>
+                  </div>
+              </li>
+            <?php } else { ?>
+              <li class="nav-item cta mr-md-2">
+                  <a href="job-post.php" class="nav-link">Login</a>
+              </li>
+            <?php } ?>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <!-- END nav -->
     
     <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">

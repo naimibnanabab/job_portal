@@ -104,117 +104,120 @@ if (isset($_SESSION['email'])) {
     <!-- END nav -->
     
     <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
+    <div class="overlay"></div>
+    <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
-          	<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have over <span class="number" data-number="850000">0</span> great job offers you deserve!</p>
-            <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
+            <div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
+                <p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
+                    We have over <span class="number" data-number="850000">0</span> great job offers you deserve!
+                </p>
+                <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
 
-						<div class="ftco-search">
-							<div class="row"> 
-		            <div class="col-md-12 nav-link-wrap">
-			            <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-			              <a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Find a Job</a>
+                <div class="ftco-search">
+                    <div class="row">
+                        <div class="col-md-12 nav-link-wrap">
+                            <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1"
+                                   role="tab" aria-controls="v-pills-1" aria-selected="true">Find a Job</a>
 
-			              <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Find a Candidate</a>
+                                <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2"
+                                   role="tab" aria-controls="v-pills-2" aria-selected="false">Find a Candidate</a>
+                            </div>
+                        </div>
+                        <div class="col-md-12 tab-wrap">
+                            <div class="tab-content p-4" id="v-pills-tabContent">
+                                <!-- Find a Job Section -->
+                                <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
+                                    <form action="index.php" method="get" class="search-job">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <div class="form-field">
+                                                        <div class="icon"><span class="icon-briefcase"></span></div>
+                                                        <input type="text" name="key" id="key" class="form-control"
+                                                               placeholder="eg. Graphic, Web Developer" value="<?php echo htmlspecialchars($_GET['key'] ?? ''); ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <div class="form-field">
+                                                        <div class="select-wrap">
+                                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                                            <select name="category" id="category" class="form-control">
+                                                                <option value="">Category</option>
+                                                                <?php
+                                                                $query = mysqli_query($conn, "SELECT * FROM job_category");
+                                                                while ($row = mysqli_fetch_array($query)) {
+                                                                    $selected = isset($_GET['category']) && $_GET['category'] == $row['id'] ? 'selected' : '';
+                                                                    echo "<option value='" . $row['id'] . "' $selected>" . $row['category'] . "</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <div class="form-field">
+                                                        <button type="submit" class="form-control btn btn-primary">Search</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
 
-			            </div>
-			          </div>
-			          <div class="col-md-12 tab-wrap">
-			            
-			            <div class="tab-content p-4" id="v-pills-tabContent">
-
-			              <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-			              	<form action="index.php" method="post" class="search-job">
-			              		<div class="row">
-			              			<div class="col-md">
-			              				<div class="form-group">
-				              				<div class="form-field">
-				              					<div class="icon"><span class="icon-briefcase"></span></div>
-								                <input type="text" name="key" id="key" class="form-control" placeholder="eg. Graphic, Web Developer">
-								              </div>
-							              </div>
-			              			</div>
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-				              					<div class="select-wrap">
-						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-						                      <select name="category" id="category" class="form-control">
-                                  <option value="">Category</option>
-                                <?php
-                                while ($row = mysqli_fetch_array($query)) {
-                                    echo "<option value='" . $row['id'] . "'>" . $row['category'] . "</option>";
-                                }
-                                ?>
-
-						                
-						                      </select>
-						                    </div>
-								              </div>
-							              </div>
-			              			</div>
-			              	
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-                                <button type="submit" value="search" name="search" id="search" class="form-control btn btn-primary">Search</button>
-								            
-								              </div>
-							              </div>
-			              			</div>
-			              		</div>
-			              	</form>
-			              </div>
-
-			              <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
-                    <form action="index.php" method="post" class="search-candidate">
-			              		<div class="row">
-			              			<div class="col-md">
-			              				<div class="form-group">
-				              				<div class="form-field">
-				              					<div class="icon"><span class="icon-user"></span></div>
-								                <input type="text" class="form-control" placeholder="eg. Adam Scott">
-								              </div>
-							              </div>
-			              			</div>
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-				              					<div class="select-wrap">
-						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-						                      <select name="" id="" class="form-control">
-						                      	<option value="">Category</option>
-                                    <?php
-                                while ($row = mysqli_fetch_array($query)) {
-                                    echo "<option value='" . $row['id'] . "'>" . $row['category'] . "</option>";
-                                }
-                                ?>
-						                      </select>
-						                    </div>
-								              </div>
-							              </div>
-			              			</div>
-			              		
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-								                <input type="submit"   value="search" class="form-control btn btn-primary">
-								              </div>
-							              </div>
-			              			</div>
-			              		</div>
-			              	</form>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-		        </div>
-          </div>
+                                <!-- Find a Candidate Section -->
+                                <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+                                    <form action="index.php" method="get" class="search-candidate">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <div class="form-field">
+                                                        <div class="icon"><span class="icon-user"></span></div>
+                                                        <input type="text" name="candidate" class="form-control" placeholder="eg. Adam Scott">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <div class="form-field">
+                                                        <div class="select-wrap">
+                                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                                            <select name="candidate_category" id="" class="form-control">
+                                                                <option value="">Category</option>
+                                                                <?php
+                                                                $query = mysqli_query($conn, "SELECT * FROM job_category");
+                                                                while ($row = mysqli_fetch_array($query)) {
+                                                                    echo "<option value='" . $row['id'] . "'>" . $row['category'] . "</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <div class="form-field">
+                                                        <button type="submit" class="form-control btn btn-primary">Search</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+</div>
+
 
     <?php
 include("connection/db.php");

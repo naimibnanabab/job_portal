@@ -1,37 +1,28 @@
 <?php
 session_start();
-error_reporting(0);
 include("connection/db.php");
+$query=mysqli_query($conn,"select * from job_category");
 
-if (!isset($_GET['page'])) {
-  header("Location: http://localhost/job_portal/index.php?page=1");
-  exit();
-}
-$query = mysqli_query($conn, "SELECT * FROM job_category");
-$query = mysqli_query($conn, "SELECT * FROM job_category");
-
-// Default profile picture
-$profile_picture = "https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg";
-
-// Check if user is logged in
 if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
+  $email = $_SESSION['email'];
 
-    // Fetch the user's profile picture from the database
-    $stmt = $conn->prepare("SELECT profile_picture FROM admin_login WHERE admin_email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+  // Fetch the user's profile picture from the database
+  $stmt = $conn->prepare("SELECT profile_picture FROM admin_login WHERE admin_email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if (!empty($row['profile_picture'])) {
-            $profile_picture = $row['profile_picture'];
-        }
-    }
-    $stmt->close();
+  if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      if (!empty($row['profile_picture'])) {
+          $profile_picture = $row['profile_picture'];
+      }
+  }
+  $stmt->close();
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,40 +30,46 @@ if (isset($_SESSION['email'])) {
     <title>JobPortal - Free Bootstrap 4 Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Stylesheets -->
+    
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900" rel="stylesheet">
+
     <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="css/animate.css">
+    
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="css/magnific-popup.css">
+
     <link rel="stylesheet" href="css/aos.css">
+
     <link rel="stylesheet" href="css/ionicons.min.css">
+
     <link rel="stylesheet" href="css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-      <div class="container">
-        <a class="navbar-brand" href="index.html" style="font-weight: bold; font-size: 3rem;">Next-Hire</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="oi oi-menu"></span> Menu
-        </button>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-            <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-            <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            
-            <!-- User Profile Dropdown -->
-            <?php if (isset($_SESSION['email'])) { ?>
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+      <a class="navbar-brand" href="index.html" style="font-weight: extra-bold; font-size: 3rem;">Next-Hire</a>
+
+
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
+             <?php if (isset($_SESSION['email'])) { ?>
               <li class="nav-item cta mr-md-2">
                   <span class="nav-link">
                       <?php echo htmlspecialchars($_SESSION['email']); ?>
@@ -97,146 +94,146 @@ if (isset($_SESSION['email'])) {
                   <a href="job-post.php" class="nav-link">Login</a>
               </li>
             <?php } ?>
-          </ul>
-        </div>
-      </div>
-    </nav>
+
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
     <!-- END nav -->
     
     <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
+      <div class="overlay"></div>
+      <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-            <div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
-                <p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
-                    We have over <span class="number" data-number="850000">0</span> great job offers you deserve!
-                </p>
-                <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
+          <div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
+          	<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have <span class="number" data-number="850000">0</span> great job offers you deserve!</p>
+            <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
 
-                <div class="ftco-search">
-                    <div class="row">
-                        <div class="col-md-12 nav-link-wrap">
-                            <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1"
-                                   role="tab" aria-controls="v-pills-1" aria-selected="true">Find a Job</a>
+						<div class="ftco-search">
+							<div class="row"> 
+		            <div class="col-md-12 nav-link-wrap">
+			            <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+			              <a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Find a Job</a>
 
-                                <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2"
-                                   role="tab" aria-controls="v-pills-2" aria-selected="false">Find a Candidate</a>
-                            </div>
-                        </div>
-                        <div class="col-md-12 tab-wrap">
-                            <div class="tab-content p-4" id="v-pills-tabContent">
-                                <!-- Find a Job Section -->
-                                <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-                                    <form action="index.php" method="get" class="search-job">
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <div class="form-group">
-                                                    <div class="form-field">
-                                                        <div class="icon"><span class="icon-briefcase"></span></div>
-                                                        <input type="text" name="key" id="key" class="form-control"
-                                                               placeholder="eg. Graphic, Web Developer" value="<?php echo htmlspecialchars($_GET['key'] ?? ''); ?>">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md">
-                                                <div class="form-group">
-                                                    <div class="form-field">
-                                                        <div class="select-wrap">
-                                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                                            <select name="category" id="category" class="form-control">
-                                                                <option value="">Category</option>
-                                                                <?php
-                                                                $query = mysqli_query($conn, "SELECT * FROM job_category");
-                                                                while ($row = mysqli_fetch_array($query)) {
-                                                                    $selected = isset($_GET['category']) && $_GET['category'] == $row['id'] ? 'selected' : '';
-                                                                    echo "<option value='" . $row['id'] . "' $selected>" . $row['category'] . "</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md">
-                                                <div class="form-group">
-                                                    <div class="form-field">
-                                                        <button type="submit" class="form-control btn btn-primary">Search</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+			              <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Find a Candidate</a>
 
-                                <!-- Find a Candidate Section -->
-                                <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
-                                    <form action="index.php" method="get" class="search-candidate">
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <div class="form-group">
-                                                    <div class="form-field">
-                                                        <div class="icon"><span class="icon-user"></span></div>
-                                                        <input type="text" name="candidate" class="form-control" placeholder="eg. Adam Scott">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md">
-                                                <div class="form-group">
-                                                    <div class="form-field">
-                                                        <div class="select-wrap">
-                                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                                            <select name="candidate_category" id="" class="form-control">
-                                                                <option value="">Category</option>
-                                                                <?php
-                                                                $query = mysqli_query($conn, "SELECT * FROM job_category");
-                                                                while ($row = mysqli_fetch_array($query)) {
-                                                                    echo "<option value='" . $row['id'] . "'>" . $row['category'] . "</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md">
-                                                <div class="form-group">
-                                                    <div class="form-field">
-                                                        <button type="submit" class="form-control btn btn-primary">Search</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+			            </div>
+			          </div>
+			          <div class="col-md-12 tab-wrap">
+			            
+			            <div class="tab-content p-4" id="v-pills-tabContent">
+
+			              <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
+			              	<form action="index.php" method="post" class="search-job">
+			              		<div class="row">
+			              			<div class="col-md">
+			              				<div class="form-group">
+				              				<div class="form-field">
+				              					<div class="icon"><span class="icon-briefcase"></span></div>
+								                <input type="text" name="key" id="key" class="form-control" placeholder="eg. Garphic. Web Developer">
+								              </div>
+							              </div>
+			              			</div>
+			              			<div class="col-md">
+			              				<div class="form-group">
+			              					<div class="form-field">
+				              					<div class="select-wrap">
+						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+						                      <select name="category" id="category" class="form-control">
+                                  <option value="">Category</option>
+                                <?php
+                                while ($row = mysqli_fetch_array($query)) {
+                                    echo "<option value='" . $row['id'] . "'>" . $row['category'] . "</option>";
+                                }
+                                ?>
+
+						                
+						                      </select>
+						                    </div>
+								              </div>
+							              </div>
+			              			</div>
+			              	
+			              			<div class="col-md">
+			              				<div class="form-group">
+			              					<div class="form-field">
+                                <button type="submit" value="search" name="search" id="search" class="form-control btn btn-primary">Search</button>
+								            
+								              </div>
+							              </div>
+			              			</div>
+			              		</div>
+			              	</form>
+			              </div>
+
+			              <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+                    <form action="index.php" method="post" class="search-candidate">
+			              		<div class="row">
+			              			<div class="col-md">
+			              				<div class="form-group">
+				              				<div class="form-field">
+				              					<div class="icon"><span class="icon-user"></span></div>
+								                <input type="text" class="form-control" placeholder="eg. Adam Scott">
+								              </div>
+							              </div>
+			              			</div>
+			              			<div class="col-md">
+			              				<div class="form-group">
+			              					<div class="form-field">
+				              					<div class="select-wrap">
+						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+						                      <select name="" id="" class="form-control">
+						                      	<option value="">Category</option>
+                                    <?php
+                                while ($row = mysqli_fetch_array($query)) {
+                                    echo "<option value='" . $row['id'] . "'>" . $row['category'] . "</option>";
+                                }
+                                ?>
+						                      </select>
+						                    </div>
+								              </div>
+							              </div>
+			              			</div>
+			              		
+			              			<div class="col-md">
+			              				<div class="form-group">
+			              					<div class="form-field">
+								                <input type="submit"   value="search" class="form-control btn btn-primary">
+								              </div>
+							              </div>
+			              			</div>
+			              		</div>
+			              	</form>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+		        </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
 
     <?php
 include("connection/db.php");
-if ((isset($_POST['search']) && !empty($_POST['key'])) || isset($_GET['page'])) {
 
-  $page=$_GET['page'];
-    if($page==""||$page==1){
-      $page1=0;
-    }
-    else{
-      $page1=($page*3)-3;
-    }
+// Get the current page number
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 5; // Number of jobs per page
+$offset = ($page - 1) * $limit;
 
-  $keyword = $_POST['key'];
-  $category = $_POST['category'];
-  $sql = mysqli_query($conn, "SELECT * FROM all_jobs LEFT JOIN company ON all_jobs.customer_email=company.admin 
-  WHERE keyword LIKE '%$keyword%' OR category='$category' LIMIT $page1,3");
+// Get search parameters from POST or URL
+$keyword = isset($_POST['key']) ? $_POST['key'] : (isset($_GET['key']) ? $_GET['key'] : '');
+$category = isset($_POST['category']) ? $_POST['category'] : (isset($_GET['category']) ? $_GET['category'] : '');
+
+// Build the query based on whether a keyword or category is provided
+if (!empty($keyword) || !empty($category)) {
+    $sql = mysqli_query($conn, "SELECT * FROM all_jobs 
+                                LEFT JOIN company ON all_jobs.customer_email = company.admin 
+                                WHERE (keyword LIKE '%$keyword%' OR category = '$category') 
+                                LIMIT $limit OFFSET $offset");
 } else {
-  $sql = mysqli_query($conn, "SELECT * FROM all_jobs");
+    $sql = mysqli_query($conn, "SELECT * FROM all_jobs LIMIT $limit OFFSET $offset");
 }
 ?>
 
@@ -253,63 +250,63 @@ if ((isset($_POST['search']) && !empty($_POST['key'])) || isset($_GET['page'])) 
           </div>
         </div>
 				<div class="row h-50">
-          <?php 
-     
-        while ($row=mysqli_fetch_array($sql)){ ?>
-          <div class="col-md-12 h-50 ftco-animate">
-              <div class="job-post-item  bg-white p-4 d-block d-md-flex align-items-center">
-  
-                <div class="mb-4  mb-md-0 mr-5">
-                 <div class="job-post-item-header  d-flex align-items-center">
-                   <h2 class="mr-3 text-black h4"><?php echo $row['job_title']; ?></h2>
-                   <div class="badge-wrap">
-                    <span class="bg-warning text-white badge py-2 px-3"><?php echo $row['city']; ?></span>
-                   </div>
-                 </div>
-                 <div class="job-post-item-body d-block d-md-flex">
-                   <div class="mr-3"><span class="icon-layers"></span> <a href="#"> </a><?php echo $row['des']; ?></div>
-                   <div><span class="icon-my_location"></span> <span><?php echo $row['country']; ?>, <?php echo $row['state']; ?>,<?php echo $row['city']; ?></span></div>
-                 </div>
+        <?php
+// Loop through the results and display them
+while ($row = mysqli_fetch_array($sql)) { ?>
+    <div class="col-md-12 h-50 ftco-animate">
+        <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
+            <div class="mb-4 mb-md-0 mr-5">
+                <div class="job-post-item-header d-flex align-items-center">
+                    <h2 class="mr-3 text-black h4"><?php echo $row['job_title']; ?></h2>
+                    <div class="badge-wrap">
+                        <span class="bg-warning text-white badge py-2 px-3"><?php echo $row['city']; ?></span>
+                    </div>
                 </div>
-  
-                <div class="ml-auto d-flex">
-                  <a href="blog-single.php?id=<?php echo $row['job_id']; ?>" class="btn btn-primary py-2 mr-1">Apply Job</a>
-                  <a href="#" class="btn btn-danger rounded-circle btn-favorite d-flex align-items-center">
+                <div class="job-post-item-body d-block d-md-flex">
+                    <div class="mr-3">
+                        <span class="icon-layers"></span> 
+                        <a href="#"> </a><?php echo $row['des']; ?>
+                    </div>
+                    <div>
+                        <span class="icon-my_location"></span> 
+                        <span><?php echo $row['country']; ?>, <?php echo $row['state']; ?>,<?php echo $row['city']; ?></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ml-auto d-flex">
+                <a href="blog-single.php?id=<?php echo $row['job_id']; ?>" class="btn btn-primary py-2 mr-1">Apply Job</a>
+                <a href="#" class="btn btn-danger rounded-circle btn-favorite d-flex align-items-center">
                     <span class="icon-heart"></span>
-                  </a>
-                </div>
-  
-              </div>
-            </div><!-- end -->
-    
-   <?php } ?>
+                </a>
+            </div>
+
+        </div>
+    </div><!-- end -->
+
+<?php } ?>
+
+<?php
+// Pagination logic
+// Count the total number of jobs
+$total_jobs_sql = mysqli_query($conn, "SELECT COUNT(*) FROM all_jobs");
+$total_jobs = mysqli_fetch_row($total_jobs_sql)[0];
+
+// Calculate total pages
+$total_pages = ceil($total_jobs / $limit);
+
+// Pagination links with keyword and category included
+echo '<div class="d-flex justify-content-center mt-4" style="width: 100%;">';
+for ($i = 1; $i <= $total_pages; $i++) {
+    echo '<a href="?page=' . $i . '&key=' . urlencode($keyword) . '&category=' . urlencode($category) . '" class="btn btn-success rounded-circle ' . ($i == $page ? 'active' : '') . ' mx-2">' . $i . '</a>';
+}
+echo '</div>';
+
+?>
 
 
 				</div>
-				<div class="row mt-5">
-          <div class="col text-center">
-            <div class="block-27">
-              <ul>
-                <li><a href="#">&lt;</a></li>
-                <?php
-                $sql=mysqli_query($conn,"SELECT * FROM all_jobs LEFT JOIN company ON all_jobs.customer_email=company.admin 
-                WHERE keyword LIKE '%$keyword%' OR category='$category'");
-                $count=mysqli_num_rows($sql);
-                $a=$count/3;
-                  ceil($a);
-                  for($b=1; $b <=$a; $b++){
-
-                ?>
-                <li><a href="index.php?page=<?php echo $b; ?>"><?php echo $b; ?></a></li>
-                <?php }?>
-                <li><a href="#">&gt;</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-			</div>
 		</section>
-
 
     <section class="ftco-section services-section bg-light">
       <div class="container">
@@ -533,77 +530,57 @@ if ((isset($_POST['search']) && !empty($_POST['key'])) || isset($_GET['page'])) 
     </section>
 
     <section class="ftco-section bg-light">
-      <div class="container">
+    <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">Our Blog</span>
-            <h2><span>Recent</span> Blog</h2>
-          </div>
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <span class="subheading">Our Blog</span>
+                <h2><span>Recent</span> Blog</h2>
+            </div>
         </div>
         <div class="row d-flex">
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_1.jpg');">
-              </a>
-              <div class="text mt-3">
-              	<div class="meta mb-2">
-                  <div><a href="#">December 2, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto enim non iste maxime optio, ut com</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
-              </a>
-              <div class="text mt-3">
-              	<div class="meta mb-2">
-                  <div><a href="#">December 2, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nobis natus incidunt officia assumenda.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
-              </a>
-              <div class="text mt-3">
-              	<div class="meta mb-2">
-                  <div><a href="#">December 2, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi obcaecati praesentium,</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('images/image_4.jpg');">
-              </a>
-              <div class="text mt-3">
-              	<div class="meta mb-2">
-                  <div><a href="#">December 2, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor minima, dolores quis, dolorum accusamu</p>
-              </div>
-            </div>
-          </div>
+            <?php
+            include("connection/db.php");
+
+            // Fetch the blog data from the database
+            $sql = "SELECT * FROM blogs"; // SQL query to fetch all blogs
+            $result = mysqli_query($conn, $sql); // Execute the query
+
+            // Check if there are results
+            if ($result && mysqli_num_rows($result) > 0) {
+                // Output data for each blog
+                while ($row = mysqli_fetch_assoc($result)) {
+                    // Display each blog in a card
+                    echo '<div class="col-md-3 d-flex ftco-animate">';
+                    echo '<div class="blog-entry align-self-stretch">';
+                    echo '<a href="#" class="block-20" style="background-image: url(' . htmlspecialchars($row['image_path']) . ');"></a>';
+                    echo '<div class="text mt-3">';
+                    echo '<div class="meta mb-2">';
+                    echo '<div><a href="#">' . date('F j, Y', strtotime($row['date'])) . '</a></div>';
+                    echo '<div><a href="#">Admin</a></div>';
+                    echo '<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>';
+                    echo '</div>';
+                    echo '<h3 class="heading"><a href="#" class="blog-title" data-id="' . $row['id'] . '">' . htmlspecialchars($row['title']) . '</a></h3>';
+                    echo '<p>' . htmlspecialchars($row['description']) . '</p>';
+
+                    // Hidden content to be revealed on click
+                    echo '<div id="blog-content-' . $row['id'] . '" class="blog-content" style="display:none;">';
+                    echo '<p>' . nl2br(htmlspecialchars($row['full_content'])) . '</p>';
+                    echo '</div>';
+
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                echo "<p>No blogs found</p>";
+            }
+
+            // Close the database connection
+            mysqli_close($conn);
+            ?>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 		
 		<section class="ftco-section-parallax">
       <div class="parallax-img d-flex align-items-center">

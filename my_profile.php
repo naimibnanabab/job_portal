@@ -1,6 +1,6 @@
 <?php
-// Start session
 include('include/header.php');
+// Start session
 session_start();
 include('connection/db.php');
 
@@ -12,7 +12,7 @@ if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
 
 // Fetch user details from the database
 $email = $_SESSION['email'];
-$query = "SELECT first_name, last_name, profile_picture, birth_date, mobile_number FROM admin_login WHERE admin_email = ?";
+$query = "SELECT first_name, last_name, profile_picture, dob, mobile_number FROM admin_login WHERE admin_email = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -22,13 +22,13 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $first_name = $row['first_name'];
     $last_name = $row['last_name'];
-    $birth_date = $row['birth_date'] ?? ''; // Safe fallback for null values
+    $dob = $row['dob'] ?? ''; // Safe fallback for null values
     $mobile_number = $row['mobile_number'] ?? ''; // Safe fallback for null values
     $profile_picture = !empty($row['profile_picture']) ? $row['profile_picture'] : "https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg";
 } else {
     $first_name = "Unknown";
     $last_name = "User";
-    $birth_date = "";
+    $dob = "";
     $mobile_number = ""; // Default value for mobile number
     $profile_picture = "https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg";
 }
@@ -38,18 +38,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_details'])) {
     $new_first_name = $_POST['first_name'];
     $new_last_name = $_POST['last_name'];
     $new_password = $_POST['password'];
-    $new_birth_date = $_POST['birth_date'];
+    $new_dob = $_POST['dob'];
     $new_mobile_number = $_POST['mobile_number'];
 
-    $update_query = "UPDATE admin_login SET first_name = ?, last_name = ?, admin_pass = ?, birth_date = ?, mobile_number = ? WHERE admin_email = ?";
+    $update_query = "UPDATE admin_login SET first_name = ?, last_name = ?, admin_pass = ?, dob = ?, mobile_number = ? WHERE admin_email = ?";
     $update_stmt = $conn->prepare($update_query);
-    $update_stmt->bind_param("ssssss", $new_first_name, $new_last_name, $new_password, $new_birth_date, $new_mobile_number, $email);
+    $update_stmt->bind_param("ssssss", $new_first_name, $new_last_name, $new_password, $new_dob, $new_mobile_number, $email);
 
     if ($update_stmt->execute()) {
         $success_message = "Profile details updated successfully.";
         $first_name = $new_first_name;
         $last_name = $new_last_name;
-        $birth_date = $new_birth_date;
+        $dob = $new_dob;
         $mobile_number = $new_mobile_number;
     } else {
         $error_message = "Failed to update profile details.";
@@ -104,7 +104,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_details'])) {
                 <div class="card profile-card">
                     <div class="card-body">
                         <div class="profile-picture"></div>
-                        <h5 class="card-title">Profile Picture</h5>
+                        <h5 class="card-title">
+                        <?php 
+                        // Assuming $row contains the data for first_name and last_name
+                        $first_name = $row['first_name'];
+                        $last_name = $row['last_name'];
+                        echo htmlspecialchars($first_name) . ' ' . htmlspecialchars($last_name);
+                        ?>
+                    </h5>
                         <form method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="profile_picture">Upload Profile Picture</label>
@@ -137,8 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_details'])) {
                                 <input type="password" name="password" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="birth_date">Birth Date</label>
-                                <input type="date" name="birth_date" class="form-control" value="<?php echo htmlspecialchars($birth_date); ?>">
+                                <label for="dob">Birth Date</label>
+                                <input type="date" name="dob" class="form-control" value="<?php echo htmlspecialchars($dob); ?>">
                             </div>
                             <div class="form-group">
                                 <label for="mobile_number">Mobile Number</label>

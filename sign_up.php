@@ -20,7 +20,7 @@
 
   <body class="text-center">
     <form class="form-signin" action="sign_up.php" method="post">
-      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <img class="mb-4" src="https://media.discordapp.net/attachments/1312377146076827679/1312468131209412689/NextHire-01.png?ex=674c9ab2&is=674b4932&hm=e4f5299d5e48c7b0ab3fa6e675e61a59caed232953938bbeee1e75f873e0f278&=&format=webp&quality=lossless" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>

@@ -22,6 +22,13 @@ if (mysqli_num_rows($query) > 0) {
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
+            <a class="nav-link active fs-5 fw-bold" href="../index.php">
+              <img src="https://media.discordapp.net/attachments/1312377146076827679/1312468131209412689/NextHire-01.png?ex=674c9ab2&is=674b4932&hm=e4f5299d5e48c7b0ab3fa6e675e61a59caed232953938bbeee1e75f873e0f278&=&format=webp&quality=lossless"
+              >
+               
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link active fs-5 fw-bold" href="#">
               <span data-feather="home"></span>
               Dashboard <span class="sr-only">(current)</span>
@@ -101,6 +108,14 @@ if (mysqli_num_rows($query) > 0) {
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active fs-5 fw-bold" href="../index.php">
+            <img class="mb-4" src="https://media.discordapp.net/attachments/1312377146076827679/1312468131209412689/NextHire-01.png?ex=674c9ab2&is=674b4932&hm=e4f5299d5e48c7b0ab3fa6e675e61a59caed232953938bbeee1e75f873e0f278&=&format=webp&quality=lossless" alt="" width="72" height="72"> 
+            <span style="font-weight: extra-bold; font-size: 3rem;">
+              Next-Hire
+              </span> 
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link active fs-5 fw-bold" href="#">
               <span data-feather="home"></span>

@@ -44,6 +44,10 @@ session_start();
       <input type="password" name="pass"  id="pass" class="form-control" placeholder="Password" required>
         <br>
       <input class="btn btn-lg btn-primary btn-block" name="submit" id="submit" type="submit" placeholder="sign in">
+      <a href="../index.php" class="btn btn-primary btn-lg btn-block shadow-sm hover-effect" role="button">
+    Back Home
+</a>
+
       <p class="mt-5 mb-3 text-muted">&copy; 2024-2025</p>
     </form>
   </body>

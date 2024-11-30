@@ -45,26 +45,19 @@
                  </div>
 
                  <div class="form-group">
-                    <label for="">Country</label>
+               <label for="countryId">Country</label>
+               <input type="text" name="country" class="form-control" id="countryId" placeholder="Enter Country">
+            </div>
 
-                    <select name="country" class="countries form-control" id="countryId">
-                     <option value="">Select Country</option>
-                    </select>
-                 </div>
+            <div class="form-group">
+               <label for="stateId">State</label>
+               <input type="text" name="state" class="form-control" id="stateId" placeholder="Enter State">
+            </div>
 
-                 <div class="form-group">
-                    <label for="">State</label>
-                    <select name="state" class="states form-control" id="stateId">
-                     <option value="">Select State</option>
-                    </select>
-                 </div>
-
-                 <div class="form-group">
-                    <label for="">city</label>
-                    <select name="city" class="cities form-control" id="cityId">
-                    <option value="">Select City</option>
-                    </select>
-                 </div>
+            <div class="form-group">
+               <label for="cityId">City</label>
+               <input type="text" name="city" class="form-control" id="cityId" placeholder="Enter City">
+            </div>
                  <div class="form-group">
                     <label for="">Select Category</label>
                         <select name="category" class="form-control" id="category">
